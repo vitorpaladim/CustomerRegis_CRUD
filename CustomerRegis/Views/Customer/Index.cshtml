@@ -1,0 +1,76 @@
+﻿
+@using X.PagedList.Mvc.Core;
+@model X.PagedList.PagedList<CustomerRegis.Models.Customer>
+
+
+@{
+    ViewData["Tittle"] = "lista de clientes";
+
+}
+
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+<h1>Lista de clientes</h1>
+<a asp-action="Create" class="btn btn-primary">Novo Cliente</a>
+</div>
+
+
+
+<table class="table  ">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>Telefone 2</th>
+            <th>Endereço</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+@foreach (var item in Model){
+            <tr>
+
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <!-- teste is null --> <td>@(string.IsNullOrEmpty(item.Email) ? "null" : item.Email)</td> <!-- <td>...(Html.DisplayFor(modelItem => )item.Email)</td> -->
+                <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+                <td>@Html.DisplayFor(modelItem => item.Telefone2)</td>
+                <td>@Html.DisplayFor(modelItem => item.Address)</td>
+
+
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" >Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id" >Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" >Delete</a>
+                </td>
+            </tr>
+}
+    </tbody>
+</table>
+
+<br />
+
+<div class="d-flex flex-column mt-4 mb-4">
+
+    <div class="mb-2">
+        Página @Model.PageNumber de @Model.PageCount 
+    </div>
+
+    <div>
+        @Html.PagedListPager(Model, page => Url.Action("Index", new {page}), new PagedListRenderOptions{
+            LiElementClasses = new List<string> {"page-item"},
+            PageClasses = new List<string> {"page-link"},
+
+            LinkToFirstPageFormat = "<<",
+            LinkToPreviousPageFormat = "<",
+            LinkToNextPageFormat = ">",
+            LinkToLastPageFormat = ">>",
+
+
+        }
+    )
+
+    </div>
+</div>

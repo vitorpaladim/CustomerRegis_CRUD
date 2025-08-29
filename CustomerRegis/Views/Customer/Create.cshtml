@@ -1,0 +1,72 @@
+﻿@model CustomerRegis.Models.Customer
+
+@{
+    ViewData["Title"] = "Cadastrar Cliente";
+}
+
+<h1>Cadastrar Cliente</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" placeholder="Digite o nome completo" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" placeholder="exemplo@email.com" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" placeholder="(11) 98765-4321" id="phoneInput" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+
+             <div class="form-group mb-3">
+                <label asp-for="Telefone2" class="control-label"></label>
+                <input asp-for="Telefone2" class="form-control" placeholder="(11) 98765-4321" id="phoneInput2" />
+                <span asp-validation-for="Telefone2" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" placeholder="Rua Exemplo, 123" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Criar" class="btn btn-primary" /> 
+                <a asp-action="Index" class="btn btn-secondary">Voltar para a Lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Máscara simples para telefone
+        document.getElementById("phoneInput").addEventListener("input", function (e) {
+            let value = e.target.value.replace(/\D/g, "");
+            if (value.length > 11) value = value.substring(0, 11);
+
+            if (value.length > 6) {
+                e.target.value = `(${value.substring(0, 2)}) ${value.substring(2, 7)}-${value.substring(7)}`;
+            } else if (value.length > 2) {
+                e.target.value = `(${value.substring(0, 2)}) ${value.substring(2)}`;
+            } else {
+                e.target.value = value;
+            }
+        });
+    </script>
+}
